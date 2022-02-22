@@ -2,11 +2,10 @@
 <interface>
 	<template class="NumsAppWindow" parent="GtkApplicationWindow">
 		<property name="title" translatable="yes">Nums</property>
-		<!--property name="default-width">600</property>
-		<property name="default-height">400</property-->
 		<child>
 			<object class="GtkBox" id="content_box">
 				<property name="orientation">vertical</property>
+				<property name="spacing">8</property>
 				<child>
 					<object class="GtkEntry" id="display">
 						<property name="xalign">1</property>
@@ -16,7 +15,9 @@
 					</object>
 				</child>
 				<child>
-					<object class="GtkGrid" id="buttons">
+					<object class="GtkGrid" id="number_pad">
+						<property name="column-spacing">4</property>
+						<property name="row-spacing">4</property>
 						<child>
 							<object id="number_7" class="GtkButton">
 								<property name="label">7</property>

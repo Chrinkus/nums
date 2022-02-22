@@ -1,2 +1,2 @@
-# calculator
-A calculator written in C using GTK4
+# nums
+A calculator written in C using GTK4.

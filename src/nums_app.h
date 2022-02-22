@@ -1,4 +1,4 @@
-/* calculator_app.h
+/* nums_app.h
  *
  * Copyright (C) 2022 Christopher Schick seeschickrun@gmail.com
  * 
@@ -20,9 +20,9 @@
 
 #include <gtk/gtk.h>
 
-#define CALCULATOR_APP_TYPE (calculator_app_get_type())
-G_DECLARE_FINAL_TYPE(CalculatorApp, calculator_app, CALCULATOR, APP,
+#define NUMS_APP_TYPE (nums_app_get_type())
+G_DECLARE_FINAL_TYPE(NumsApp, nums_app, NUMS, APP,
 		GtkApplication);
 
-CalculatorApp* calculator_app_new(void);
+NumsApp* nums_app_new(void);
 

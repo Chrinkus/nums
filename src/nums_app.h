@@ -21,8 +21,7 @@
 #include <gtk/gtk.h>
 
 #define NUMS_APP_TYPE (nums_app_get_type())
-G_DECLARE_FINAL_TYPE(NumsApp, nums_app, NUMS, APP,
-		GtkApplication);
+G_DECLARE_FINAL_TYPE(NumsApp, nums_app, NUMS, APP, GtkApplication);
 
 NumsApp* nums_app_new(void);
 

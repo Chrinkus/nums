@@ -1,3 +1,21 @@
+/* nums_app_win.c
+ *
+ * Copyright (C) 2022 Christopher Schick seeschickrun@gmail.com
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 #include <gtk/gtk.h>
 
 #include "nums_app.h"
@@ -7,25 +25,24 @@ struct _NumsAppWindow {
 	GtkApplicationWindow parent;
 };
 
-G_DEFINE_TYPE(NumsAppWindow, nums_app_window,
-		GTK_TYPE_APPLICATION_WINDOW);
+G_DEFINE_TYPE(NumsAppWindow, nums_app_window, GTK_TYPE_APPLICATION_WINDOW);
 
 static void
 nums_app_window_init(NumsAppWindow* window)
 {
-	// Nothing yet
+	gtk_widget_init_template(GTK_WIDGET(window));
 }
 
 static void
 nums_app_window_class_init(NumsAppWindowClass* class)
 {
-	// Noting yet
+	gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class),
+			"/chrinkus/numsapp/window.ui");
 }
 
 NumsAppWindow*
 nums_app_window_new(NumsApp* app)
 {
-	return g_object_new(NUMS_APP_WINDOW_TYPE, "application", app,
-			NULL);
+	return g_object_new(NUMS_APP_WINDOW_TYPE, "application", app, NULL);
 }
 

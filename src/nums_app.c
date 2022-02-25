@@ -52,6 +52,6 @@ NumsApp*
 nums_app_new(void)
 {
 	return g_object_new(NUMS_APP_TYPE,
-			"application-id", "com.github.Chrinkus",
+			"application-id", "com.github.Chrinkus.nums",
 			NULL);
 }

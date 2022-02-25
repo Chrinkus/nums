@@ -2,13 +2,13 @@
 <interface>
 	<template class="NumsAppWindow" parent="GtkApplicationWindow">
 		<property name="title" translatable="yes">Nums</property>
+		<property name="default-width">100</property>
 		<child>
 			<object class="GtkBox" id="content_box">
 				<property name="orientation">vertical</property>
 				<property name="spacing">8</property>
 				<child>
-					<object class="GtkEntry" id="display">
-						<property name="xalign">1</property>
+					<object class="GtkLabel" id="display">
 						<attributes>
 							<attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
 						</attributes>
@@ -18,6 +18,7 @@
 					<object class="GtkGrid" id="number_pad">
 						<property name="column-spacing">4</property>
 						<property name="row-spacing">4</property>
+						<property name="column-homogeneous">TRUE</property>
 						<child>
 							<object id="number_7" class="GtkButton">
 								<property name="label">7</property>
@@ -100,12 +101,22 @@
 							</object>
 						</child>
 						<child>
+							<object id="op_sign" class="GtkButton">
+								<!-- #43 is the plus symbol-->
+								<!-- #8722 is the minus symbol-->
+								<property name="label">&#43;/&#8722;</property>
+								<layout>
+									<property name="row">3</property>
+									<property name="column">0</property>
+								</layout>
+							</object>
+						</child>
+						<child>
 							<object id="number_0" class="GtkButton">
 								<property name="label">0</property>
 								<layout>
 									<property name="row">3</property>
-									<property name="column">0</property>
-									<property name="column-span">2</property>
+									<property name="column">1</property>
 								</layout>
 							</object>
 						</child>
@@ -115,6 +126,78 @@
 								<layout>
 									<property name="row">3</property>
 									<property name="column">2</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_root" class="GtkButton">
+								<!-- #8730 is the square-root symbol-->
+								<property name="label">&#8730;</property>
+								<layout>
+									<property name="row">0</property>
+									<property name="column">3</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_pow2" class="GtkButton">
+								<!-- #119909 is the small 'x' symbol-->
+								<!-- #178 is the superscript 2 symbol-->
+								<property name="label">&#119909;&#178;</property>
+								<layout>
+									<property name="row">0</property>
+									<property name="column">4</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_mul" class="GtkButton">
+								<!-- #215 is the multiplication 'x' symbol-->
+								<property name="label">&#215;</property>
+								<layout>
+									<property name="row">1</property>
+									<property name="column">3</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_div" class="GtkButton">
+								<!-- #247 is the division symbol-->
+								<property name="label">&#247;</property>
+								<layout>
+									<property name="row">1</property>
+									<property name="column">4</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_add" class="GtkButton">
+								<!-- #43 is the plus symbol-->
+								<property name="label">&#43;</property>
+								<layout>
+									<property name="row">2</property>
+									<property name="column">3</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_sub" class="GtkButton">
+								<!-- #8722 is the minus symbol-->
+								<property name="label">&#8722;</property>
+								<layout>
+									<property name="row">2</property>
+									<property name="column">4</property>
+								</layout>
+							</object>
+						</child>
+						<child>
+							<object id="op_equal" class="GtkButton">
+								<!-- #61 is the equals symbol-->
+								<property name="label">&#61;</property>
+								<layout>
+									<property name="row">3</property>
+									<property name="column">3</property>
+									<property name="column-span">2</property>
 								</layout>
 							</object>
 						</child>

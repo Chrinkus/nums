@@ -21,8 +21,46 @@
 #include "nums_app.h"
 #include "nums_app_win.h"
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+
+enum { NUMS_DISPLAY_MAXBUFF = 10 };
+
+struct nums_display {
+	GtkLabel* screen;
+	char buffer[NUMS_DISPLAY_MAXBUFF];
+};
+
+static void
+nums_display_update(struct nums_display* display)
+{
+	const char* format = "<span size=\"x-large\">%s</span>";
+	char* markup = g_markup_printf_escaped(format, display->buffer);
+
+	gtk_label_set_markup(GTK_LABEL(display->screen), markup);
+
+	g_free(markup);
+}
+
+static void
+nums_display_clear(struct nums_display* display)
+{
+	strcpy(display->buffer, "0");
+	nums_display_update(display);
+}
+
+static void
+nums_display_init(struct nums_display* display)
+{
+	gtk_widget_set_halign(GTK_WIDGET(display->screen), GTK_ALIGN_END);
+	nums_display_clear(display);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+
 struct _NumsAppWindow {
 	GtkApplicationWindow parent;
+
+	struct nums_display display;
 };
 
 G_DEFINE_TYPE(NumsAppWindow, nums_app_window, GTK_TYPE_APPLICATION_WINDOW);
@@ -31,13 +69,17 @@ static void
 nums_app_window_init(NumsAppWindow* window)
 {
 	gtk_widget_init_template(GTK_WIDGET(window));
+	nums_display_init(&window->display);
 }
 
 static void
 nums_app_window_class_init(NumsAppWindowClass* class)
 {
 	gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class),
-			"/chrinkus/numsapp/window.ui");
+			"/com/github/Chrinkus/nums/window.ui");
+
+	gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(class),
+			NumsAppWindow, display);
 }
 
 NumsAppWindow*

@@ -26,6 +26,7 @@
 									<property name="row">0</property>
 									<property name="column">0</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -35,6 +36,7 @@
 									<property name="row">0</property>
 									<property name="column">1</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -44,6 +46,7 @@
 									<property name="row">0</property>
 									<property name="column">2</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -53,6 +56,7 @@
 									<property name="row">1</property>
 									<property name="column">0</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -62,6 +66,7 @@
 									<property name="row">1</property>
 									<property name="column">1</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -71,6 +76,7 @@
 									<property name="row">1</property>
 									<property name="column">2</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -80,6 +86,7 @@
 									<property name="row">2</property>
 									<property name="column">0</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -89,6 +96,7 @@
 									<property name="row">2</property>
 									<property name="column">1</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -98,6 +106,7 @@
 									<property name="row">2</property>
 									<property name="column">2</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -118,6 +127,7 @@
 									<property name="row">3</property>
 									<property name="column">1</property>
 								</layout>
+								<signal name="clicked" handler="number_pressed"/>
 							</object>
 						</child>
 						<child>

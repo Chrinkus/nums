@@ -55,6 +55,17 @@ nums_display_init(struct nums_display* display)
 	nums_display_clear(display);
 }
 
+static void
+nums_display_append_number(struct nums_display* display, const char* digit)
+{
+	if (strcmp(display->buffer, "0") == 0) {
+		strcpy(display->buffer, digit);
+	} else if (strlen(display->buffer) < NUMS_DISPLAY_MAXBUFF - 1) {
+		strcat(display->buffer, digit);
+	}
+	nums_display_update(display);
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
 
 struct _NumsAppWindow {
@@ -73,6 +84,16 @@ nums_app_window_init(NumsAppWindow* window)
 }
 
 static void
+number_pressed(GtkWidget* w, gpointer p)
+{
+	GtkButton* btn = GTK_BUTTON(w);
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+
+	const char* digit = gtk_button_get_label(GTK_BUTTON(btn));
+	nums_display_append_number(&window->display, digit);
+}
+
+static void
 nums_app_window_class_init(NumsAppWindowClass* class)
 {
 	gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class),
@@ -80,6 +101,9 @@ nums_app_window_class_init(NumsAppWindowClass* class)
 
 	gtk_widget_class_bind_template_child(GTK_WIDGET_CLASS(class),
 			NumsAppWindow, display);
+
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class),
+			number_pressed);
 }
 
 NumsAppWindow*

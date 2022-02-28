@@ -110,7 +110,7 @@
 							</object>
 						</child>
 						<child>
-							<object id="op_sign" class="GtkButton">
+							<object id="op_change_sign" class="GtkButton">
 								<!-- #43 is the plus symbol-->
 								<!-- #8722 is the minus symbol-->
 								<property name="label">&#43;/&#8722;</property>
@@ -118,6 +118,9 @@
 									<property name="row">3</property>
 									<property name="column">0</property>
 								</layout>
+								<signal
+									name="clicked"
+									handler="change_sign_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -127,7 +130,9 @@
 									<property name="row">3</property>
 									<property name="column">1</property>
 								</layout>
-								<signal name="clicked" handler="number_pressed"/>
+								<signal
+									name="clicked"
+									handler="number_pressed"/>
 							</object>
 						</child>
 						<child>
@@ -137,6 +142,9 @@
 									<property name="row">3</property>
 									<property name="column">2</property>
 								</layout>
+								<signal
+									name="clicked"
+									handler="decimal_pressed"/>
 							</object>
 						</child>
 						<child>

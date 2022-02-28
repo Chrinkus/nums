@@ -23,7 +23,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
 
-enum { NUMS_DISPLAY_MAXBUFF = 10 };
+enum { NUMS_DISPLAY_MAXBUFF = 16 };
 
 struct nums_display {
 	GtkLabel* screen;
@@ -45,7 +45,6 @@ static void
 nums_display_clear(struct nums_display* display)
 {
 	strcpy(display->buffer, "0");
-	nums_display_update(display);
 }
 
 static void
@@ -53,6 +52,7 @@ nums_display_init(struct nums_display* display)
 {
 	gtk_widget_set_halign(GTK_WIDGET(display->screen), GTK_ALIGN_END);
 	nums_display_clear(display);
+	nums_display_update(display);
 }
 
 static void
@@ -62,6 +62,33 @@ nums_display_append_number(struct nums_display* display, const char* digit)
 		strcpy(display->buffer, digit);
 	} else if (strlen(display->buffer) < NUMS_DISPLAY_MAXBUFF - 1) {
 		strcat(display->buffer, digit);
+	}
+	nums_display_update(display);
+}
+
+static void
+nums_display_append_decimal(struct nums_display* display)
+{
+	char* s = display->buffer;
+	int len = strlen(s);
+	if (!strchr(s, '.') && len < NUMS_DISPLAY_MAXBUFF - 1) {
+		s[len++] = '.';
+		s[len] = '\0';
+		nums_display_update(display);
+	}
+}
+
+static void
+nums_display_change_sign(struct nums_display* display)
+{
+	char* s = display->buffer;
+	if (s[0] == '-') {
+		for (char* p = s+1; *s; ++s, ++p)
+			*s = *p;
+	} else if (strlen(s) < NUMS_DISPLAY_MAXBUFF - 1) {
+		for (char a = '-', b = *s; a; *s = a, a = b, ++s)
+			b = b ? *s : b;	// change b until it is '\0'
+		*s = '\0';
 	}
 	nums_display_update(display);
 }
@@ -89,8 +116,26 @@ number_pressed(GtkWidget* w, gpointer p)
 	GtkButton* btn = GTK_BUTTON(w);
 	NumsAppWindow* window = NUMS_APP_WINDOW(p);
 
-	const char* digit = gtk_button_get_label(GTK_BUTTON(btn));
+	const char* digit = gtk_button_get_label(btn);
 	nums_display_append_number(&window->display, digit);
+}
+
+static void
+decimal_pressed(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_display_append_decimal(&window->display);
+	/*
+	struct nums_display* q = (struct nums_display*)p;
+	nums_display_append_decimal(q);
+	*/
+}
+
+static void
+change_sign_pressed(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_display_change_sign(&window->display);
 }
 
 static void
@@ -104,6 +149,10 @@ nums_app_window_class_init(NumsAppWindowClass* class)
 
 	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class),
 			number_pressed);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class),
+			decimal_pressed);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(class),
+			change_sign_pressed);
 }
 
 NumsAppWindow*

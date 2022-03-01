@@ -20,63 +20,7 @@
 
 #include "nums_app.h"
 #include "nums_app_win.h"
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
-
-enum { NUMS_DATA_MAXBUFF = 16 };
-
-struct nums_data {
-	char buffer[NUMS_DATA_MAXBUFF];
-};
-
-static void
-nums_data_init(struct nums_data* data)
-{
-	strcpy(data->buffer, "0");
-}
-
-static void
-nums_data_clear(struct nums_data* data)
-{
-	strcpy(data->buffer, "0");
-}
-
-static void
-nums_data_append_number(struct nums_data* data, const char* digit)
-{
-	if (strcmp(data->buffer, "0") == 0) {
-		strcpy(data->buffer, digit);
-	} else if (strlen(data->buffer) < NUMS_DATA_MAXBUFF - 1) {
-		strcat(data->buffer, digit);
-	}
-}
-
-static void
-nums_data_append_decimal(struct nums_data* data)
-{
-	char* s = data->buffer;
-	int len = strlen(s);
-	if (!strchr(s, '.') && len < NUMS_DATA_MAXBUFF - 1) {
-		s[len++] = '.';
-		s[len] = '\0';
-	}
-}
-
-static void
-nums_data_change_sign(struct nums_data* data)
-{
-	char* s = data->buffer;
-	if (s[0] == '-') {
-		for (char* p = s+1; *s; ++s, ++p)
-			*s = *p;
-	} else if (strlen(s) < NUMS_DATA_MAXBUFF - 1) {
-		for (char a = '-', b = *s; a; *s = a, a = b, ++s)
-			b = b ? *s : b;	// change b until it is '\0'
-		*s = '\0';
-	}
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
+#include "nums_data.h"
 
 struct _NumsAppWindow {
 	GtkApplicationWindow parent;
@@ -92,7 +36,8 @@ static void
 update_display(GtkLabel* display, struct nums_data* state)
 {
 	const char* format = "<span size=\"x-large\">%s</span>";
-	char* markup = g_markup_printf_escaped(format, state->buffer);
+	char* markup = g_markup_printf_escaped(format,
+			nums_data_get_buffer(state));
 
 	gtk_label_set_markup(GTK_LABEL(display), markup);
 
@@ -114,7 +59,7 @@ number_cb(GtkWidget* w, gpointer p)
 	NumsAppWindow* window = NUMS_APP_WINDOW(p);
 
 	const char* digit = gtk_button_get_label(GTK_BUTTON(w));
-	nums_data_append_number(window->state, digit);
+	nums_data_append_digit(window->state, digit[0]);
 	update_display(window->display, window->state);
 }
 
@@ -140,8 +85,7 @@ nums_app_window_init(NumsAppWindow* window)
 {
 	gtk_widget_init_template(GTK_WIDGET(window));
 
-	window->state = malloc(sizeof(struct nums_data));
-	nums_data_init(window->state);
+	window->state = nums_data_new();
 
 	gtk_widget_set_halign(GTK_WIDGET(window->display), GTK_ALIGN_END);
 	update_display(window->display, window->state);
@@ -152,7 +96,7 @@ nums_app_window_dispose(GObject* obj)
 {
 	NumsAppWindow* window = NUMS_APP_WINDOW(obj);
 
-	free(window->state);
+	nums_data_free(window->state);
 
 	G_OBJECT_CLASS(nums_app_window_parent_class)->dispose(obj);
 }

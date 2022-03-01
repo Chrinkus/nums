@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>	/* snprintf */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
 
@@ -68,17 +69,30 @@ str_shift(char* s)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */ 
 
-enum { NUMS_DATA_MAXBUFF = 16 };
+enum nums_data_buffer_size { NUMS_DATA_MAXBUFF = 16 };
+
+enum nums_data_string_indexes {
+	ND_ZERO,
+	ND_ERROR,
+	ND_NUM_STRINGS
+};
+const char* const nums_data_strings[ND_NUM_STRINGS] = {
+	[ND_ZERO]	= "0",
+	[ND_ERROR]	= "Error",
+};
 
 struct nums_data {
 	char buffer[NUMS_DATA_MAXBUFF];
+	double store;
+	enum nums_data_op op;
 };
 
 struct nums_data*
 nums_data_new(void)
 {
 	struct nums_data* data = malloc(sizeof(struct nums_data));
-	strcpy(data->buffer, "0");
+	strcpy(data->buffer, nums_data_strings[ND_ZERO]);
+	data->store = 0.0;
 	return data;
 }
 
@@ -97,7 +111,46 @@ nums_data_get_buffer(const struct nums_data* data)
 void
 nums_data_clear(struct nums_data* data)
 {
-	strcpy(data->buffer, "0");
+	strcpy(data->buffer, nums_data_strings[ND_ZERO]);
+}
+
+void
+nums_data_eval(struct nums_data* data)
+{
+	double tmp = strtod(data->buffer, NULL);
+
+	switch (data->op) {
+	case NUMS_OP_ADD:	data->store += tmp;	break;
+	case NUMS_OP_SUBTRACT:	data->store -= tmp;	break;
+	case NUMS_OP_MULTIPLY:	data->store *= tmp;	break;
+	case NUMS_OP_DIVIDE:
+		if (tmp == 0.0) {
+			strcpy(data->buffer, nums_data_strings[ND_ERROR]);
+			data->op = NUMS_OP_ERROR;
+		} else {
+			data->store /= tmp;
+		}
+		break;
+	case NUMS_OP_NONE:	/* fallthrough */
+	default:		/* fallthrough */
+	}
+
+	if (data->op != NUMS_OP_ERROR) {
+		snprintf(data->buffer, NUMS_DATA_MAXBUFF, "%f", data->store);
+		data->op = NUMS_OP_NONE;
+		data->store = 0.0;
+	}
+}
+
+void
+nums_data_prepare_op(struct nums_data* data, enum nums_data_op op)
+{
+	if (data->op == NUMS_OP_NONE)
+		data->store = strtod(data->buffer, NULL);
+	else
+		nums_data_eval(data);
+
+	data->op = op;
 }
 
 void

@@ -18,6 +18,15 @@
  */
 #pragma once
 
+enum nums_data_op {
+	NUMS_OP_NONE,
+	NUMS_OP_ADD,
+	NUMS_OP_SUBTRACT,
+	NUMS_OP_MULTIPLY,
+	NUMS_OP_DIVIDE,
+	NUMS_OP_ERROR,
+};
+
 struct nums_data;
 
 struct nums_data*
@@ -28,6 +37,12 @@ nums_data_free(struct nums_data* data);
 
 void
 nums_data_clear(struct nums_data* data);
+
+void
+nums_data_eval(struct nums_data* data);
+
+void
+nums_data_prepare_op(struct nums_data* data, enum nums_data_op op);
 
 const char*
 nums_data_get_buffer(const struct nums_data* data);

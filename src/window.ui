@@ -224,6 +224,7 @@
 									<property name="row">3</property>
 									<property name="column">3</property>
 								</layout>
+								<signal name="clicked" handler="add_cb"/>
 							</object>
 						</child>
 						<child>
@@ -234,6 +235,7 @@
 									<property name="row">3</property>
 									<property name="column">4</property>
 								</layout>
+								<signal name="clicked" handler="subtract_cb"/>
 							</object>
 						</child>
 						<child>
@@ -245,6 +247,7 @@
 									<property name="column">3</property>
 									<property name="column-span">2</property>
 								</layout>
+								<signal name="clicked" handler="equals_cb"/>
 							</object>
 						</child>
 					</object>

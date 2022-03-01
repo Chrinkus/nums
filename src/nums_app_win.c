@@ -81,6 +81,33 @@ change_sign_cb(GtkWidget* w, gpointer p)
 }
 
 static void
+equals_cb(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_data_eval(window->state);
+	update_display(window->display, window->state);
+	nums_data_clear(window->state);
+}
+
+static void
+add_cb(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_data_prepare_op(window->state, NUMS_OP_ADD);
+	update_display(window->display, window->state);
+	nums_data_clear(window->state);
+}
+
+static void
+subtract_cb(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_data_prepare_op(window->state, NUMS_OP_SUBTRACT);
+	update_display(window->display, window->state);
+	nums_data_clear(window->state);
+}
+
+static void
 nums_app_window_init(NumsAppWindow* window)
 {
 	gtk_widget_init_template(GTK_WIDGET(window));
@@ -120,6 +147,12 @@ nums_app_window_class_init(NumsAppWindowClass* klass)
 			decimal_cb);
 	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
 			change_sign_cb);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
+			equals_cb);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
+			add_cb);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
+			subtract_cb);
 }
 
 NumsAppWindow*

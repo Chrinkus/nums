@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>	/* snprintf */
+#include <math.h>	/* sqrt */
 
 #include <cgs/cgs.h>	/* string utils */
 
@@ -86,6 +87,14 @@ nums_data_eval(struct nums_data* data)
 			data->store /= tmp;
 		}
 		break;
+	case NUMS_OP_SQRT:
+		if (tmp < 0.0) {
+			strcpy(data->buffer, nums_data_strings[ND_ERROR]);
+			data->op = NUMS_OP_ERROR;
+		} else {
+			data->store = sqrt(tmp);
+		}
+		break;
 	case NUMS_OP_NONE:	/* fallthrough */
 	default:		/* fallthrough */
 	}
@@ -93,6 +102,10 @@ nums_data_eval(struct nums_data* data)
 	if (data->op != NUMS_OP_ERROR) {
 		snprintf(data->buffer, NUMS_DATA_MAXBUFF, "%f", data->store);
 		cgs_strtrimch(data->buffer, '0');
+
+		if (data->buffer[0] == '.')
+			cgs_strprepend(data->buffer, '0');
+
 		data->op = NUMS_OP_NONE;
 		data->store = 0.0;
 	}

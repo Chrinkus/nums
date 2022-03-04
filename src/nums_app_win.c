@@ -108,6 +108,33 @@ subtract_cb(GtkWidget* w, gpointer p)
 }
 
 static void
+multiply_cb(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_data_prepare_op(window->state, NUMS_OP_MULTIPLY);
+	update_display(window->display, window->state);
+	nums_data_clear(window->state);
+}
+
+static void
+divide_cb(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_data_prepare_op(window->state, NUMS_OP_DIVIDE);
+	update_display(window->display, window->state);
+	nums_data_clear(window->state);
+}
+
+static void
+sqrt_cb(GtkWidget* w, gpointer p)
+{
+	NumsAppWindow* window = NUMS_APP_WINDOW(p);
+	nums_data_prepare_op(window->state, NUMS_OP_SQRT);
+	update_display(window->display, window->state);
+	nums_data_clear(window->state);
+}
+
+static void
 nums_app_window_init(NumsAppWindow* window)
 {
 	gtk_widget_init_template(GTK_WIDGET(window));
@@ -153,6 +180,12 @@ nums_app_window_class_init(NumsAppWindowClass* klass)
 			add_cb);
 	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
 			subtract_cb);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
+			multiply_cb);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
+			divide_cb);
+	gtk_widget_class_bind_template_callback(GTK_WIDGET_CLASS(klass),
+			sqrt_cb);
 }
 
 NumsAppWindow*

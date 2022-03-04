@@ -24,6 +24,7 @@ enum nums_data_op {
 	NUMS_OP_SUBTRACT,
 	NUMS_OP_MULTIPLY,
 	NUMS_OP_DIVIDE,
+	NUMS_OP_SQRT,
 	NUMS_OP_ERROR,
 };
 

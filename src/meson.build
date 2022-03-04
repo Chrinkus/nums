@@ -4,5 +4,5 @@ app_resources = gnome.compile_resources('nums_app_resources',
 
 executable('nums',
   'nums_data.c', 'nums_app.c', 'nums_app_win.c', 'main.c', app_resources,
-  dependencies : gtkdep)
+  dependencies : [deps, libs])
 

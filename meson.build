@@ -5,7 +5,13 @@ project('nums', 'c',
 
 gnome = import('gnome')
 
-gtkdep = dependency('gtk4')
+#gtkdep = dependency('gtk4')
+deps = [
+  dependency('gtk4')
+]
+
+cc = meson.get_compiler('c')
+libs = cc.find_library('cgs', required : true)
 
 subdir('src')
 
